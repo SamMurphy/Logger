@@ -2,7 +2,7 @@
 
 Usage:
 
-''' C+
+``` C++
 	Logger::ReportingLevel() = VERBOSE;
 	fopen_s(&Output::Stream(), "mylogfile.txt", "w");
 
@@ -13,4 +13,4 @@ Usage:
 	LOG_INFO << "Logging this line " << x << " " << t;
 	LOG_WARNING << "Logging this line " << x << " " << t;
 	LOG_ERROR << "Logging this line " << x << " " << t;
-'''
+```
