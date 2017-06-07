@@ -2,7 +2,8 @@
 
 Usage:
 
-Logger::ReportingLevel() = VERBOSE;
+''' C+
+	Logger::ReportingLevel() = VERBOSE;
 	fopen_s(&Output::Stream(), "mylogfile.txt", "w");
 
 	float x = 0.2f;
@@ -12,3 +13,4 @@ Logger::ReportingLevel() = VERBOSE;
 	LOG_INFO << "Logging this line " << x << " " << t;
 	LOG_WARNING << "Logging this line " << x << " " << t;
 	LOG_ERROR << "Logging this line " << x << " " << t;
+'''
