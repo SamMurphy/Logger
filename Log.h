@@ -8,9 +8,9 @@
 
 enum Severity
 {
-	ERROR = 0,
+	ERR = 0,
 	WARNING = 1,
-	INFO = 2,
+    INFO = 2,
 	DEBUG = 3,
 	VERBOSE = 4
 };
@@ -27,8 +27,10 @@ public:
 public:
 
 	static Severity& ReportingLevel();
+	static bool FileName();
 	static std::string ToString(Severity level);
 	static Severity FromString(const std::string& level);
+	static void IncludeFileName(bool b);
 
 protected:
 
@@ -60,7 +62,7 @@ std::ostringstream& Log<T>::CreateLog(Severity level, const char* function, long
 		os << "[" << function << ":" << line << "] ";
 
 	// File name
-	if (file != "")
+	if (file != "" && FileName())
 		os << "(" << file << ") ";
 
 	// Pass the stream off, to get the rest of the message
@@ -84,6 +86,19 @@ Severity& Log<T>::ReportingLevel()
 }
 
 template <typename T>
+bool Log<T>::FileName()
+{
+	static bool fileName = false;
+	return fileName;
+}
+
+template <typename T>
+void Log<T>::IncludeFileName(bool b)
+{
+	fileName = b;
+}
+
+template <typename T>
 std::string Log<T>::ToString(Severity level)
 {
 	static const char* const buffer[] = { "ERROR", "WARNING", "INFO", "DEBUG", "VERBOSE" };
@@ -102,9 +117,9 @@ Severity Log<T>::FromString(const std::string& level)
 	if (level == "WARNING")
 		return WARNING;
 	if (level == "ERROR")
-		return ERROR;
-	Log<T>().Get(WARNING) << "Unknown logging level '" << level << "'. Using INFO level as default.";
-	return INFO;
+		return ERR;
+	Log<T>().CreateLog(WARNING) << "Unknown logging level '" << level << "'. Using DEBUG level as default.";
+	return DEBUG;
 }
 
 class Output
@@ -170,6 +185,6 @@ class FILELOG_DECLSPEC Logger : public Log<Output> {};
 	LOG(WARNING)
 
 #define LOG_ERROR \
-	LOG(ERROR)
+	LOG(ERR)
 
 #endif //__LOG_H__
